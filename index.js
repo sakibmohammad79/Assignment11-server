@@ -42,7 +42,7 @@ async function run() {
       const result = await curson.toArray();
       res.send(result);
   })
-
+// single toys
   app.get('/toys/:id', async(req, res) => {
     const id = req.params.id;
     const query = {_id: new ObjectId(id)}
@@ -50,13 +50,24 @@ async function run() {
     res.send(result);
 })
 
+// get toys which user added
+  app.get('/userToys', async (req, res) => {
+    let query = {}
+      if(req.query?.email){
+        query = {email: req.query.email}
+      }
+    const result = await toysCollection.find(query).toArray()
+    res.send(result);
+  })
+
+// Add toys 
   app.put('/toys', async (req, res) => {
     const addingToys = req.body;
     const result = await toysCollection.insertOne(addingToys);
     res.send(result);
 })
 
-  //client
+  //client section in home
   app.get('/client', async (req, res ) => {
     const curson = clientCollection.find();
     const result = await curson.toArray();
