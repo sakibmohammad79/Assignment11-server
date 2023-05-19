@@ -77,6 +77,26 @@ async function run() {
   })
 
 
+  //update toys
+  app.patch('/update/:id', async(req, res) => {
+    const id = req.params.id;
+    const updatedToy = req.body;
+    const filter = {_id: new ObjectId(id)}
+    const updatedDoc = {
+      $set: {
+        toy_name: updatedToy.toy_name,
+        toy_pic: updatedToy.toy_pic,
+        price: updatedToy.price,
+        rating: updatedToy.rating,
+        quantity: updatedToy.quantity,
+        category: updatedToy.category,
+        details: updatedToy.details
+      },
+    }
+    const result = await toysCollection.updateOne(filter, updatedDoc);
+    res.send(result);
+  })
+
   //client section in home
   app.get('/client', async (req, res ) => {
     const curson = clientCollection.find();
