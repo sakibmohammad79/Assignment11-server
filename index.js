@@ -55,16 +55,16 @@ async function run() {
       res.send(result);
     });
 
+
+    // all toys
     app.get('/toys', async (req, res ) => {
       console.log(req.query)
       let query = {}
       if(req.query?.category){
         query = {category: req.query.category}
       }
-      const limit = parseInt(req.query.limit) || 20;
-      console.log(limit);
-      const curson = toysCollection.find(query, limit);
-      const result = await curson.toArray();
+      const curson = toysCollection.find(query).limit(20);
+      const result = await curson.sort({ price: 1 }).toArray();
       res.send(result);
   })
 // single toys
@@ -81,7 +81,7 @@ async function run() {
       if(req.query?.email){
         query = {email: req.query.email}
       }
-    const result = await toysCollection.find(query).toArray()
+    const result = await toysCollection.find(query).sort({ price: 1 }).toArray();
     res.send(result);
   })
 
