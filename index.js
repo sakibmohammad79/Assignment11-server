@@ -61,7 +61,9 @@ async function run() {
       if(req.query?.category){
         query = {category: req.query.category}
       }
-      const curson = toysCollection.find(query);
+      const limit = parseInt(req.query.limit || 20);
+      console.log(limit);
+      const curson = toysCollection.find(query, limit);
       const result = await curson.toArray();
       res.send(result);
   })
