@@ -49,7 +49,6 @@ async function run() {
 
     // all toys
     app.get('/toys', async (req, res ) => {
-      console.log(req.query)
       let query = {}
       if(req.query?.category){
         query = {category: req.query.category}
